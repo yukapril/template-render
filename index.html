@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Template-demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        
+        .wrapper {
+            width: 940px;
+            margin: 20px auto;
+        }
+        
+        .header {
+            margin-top: 30px;
+        }
+        
+        .header h1 {
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+        }
+        
+        .block {
+            padding: 16px;
+            line-height: 1.45;
+            background-color: #f7f7f7;
+            border-radius: 3px;
+        }
+        
+        .show h1 {
+            margin: 4px 0 10px;
+        }
+        
+        .show h2 {
+            margin: 4px 0 10px;
+        }
+        
+        .show p {
+            margin: 4px 0;
+        }
+        
+        .show ul {
+            margin-left: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="wrapper header">
+        <h1>Template Demo</h1>
+    </header>
+    <div class="wrapper">
+        <p>模板</p>
+        <pre class="block"><code id="J_Template1"></code></pre>
+    </div>
+    <div class="wrapper show">
+        <p>效果</p>
+        <div class="block" id="J_Result1"></div>
+    </div>
+    <script src="./template.js"></script>
+    <script>
+        var tpl =
+            `<h1>{{metro}}</h1>
+<h2>I'm {{user.name}}, {{user.age}} years old!</h2>
+{{# if user.age < 22 }} 
+<p>I like "StarCraftⅡ"!</p>
+{{# else }}
+<p>I don't like games!</p>
+{{# endif }} 
+<p>My hobbys is:</p>
+<ul>
+    {{# each hobbys as item }}
+    <li>{{$index+1}}/{{$length}} - {{item}}</li>
+    {{# endeach }}
+</ul>`;
+
+        var data = {
+            metro: () => 'Hello!',
+            user: {
+                name: 'Jason',
+                age: 20
+            },
+            hobbys: () => {
+                var list = [];
+                list.push('read book');
+                list.push('coding');
+                list.push('play games');
+                return list;
+            }
+        };
+
+        var tl = new Template(tpl);
+        var result = tl(data);
+        document.querySelector('#J_Result1').innerHTML = result;
+        document.querySelector('#J_Template1').textContent = tpl;
+    </script>
+</body>
+
+</html>
